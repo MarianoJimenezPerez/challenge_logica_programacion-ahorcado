@@ -1,0 +1,1 @@
+const btnIniciar = document.querySelector('#btn-iniciar');
