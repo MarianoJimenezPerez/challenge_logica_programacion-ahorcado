@@ -1,68 +1,53 @@
 /*---------Variables globales---------*/
 
 const btnIniciar = document.querySelector('#btn-iniciar');
-const containerTableroCanvas = document.querySelector('#container-tablero-canvas');
+const tableroCanvas = document.querySelector('#tablero-canvas');
 const palabras = ['auto', 'moto', 'bicicleta'];
-const arrayPalabraSorteada = [];
+const controlLetras = document.querySelector('.control-letras');
 
 /*---------Funciones---------*/
 
-function escogerPalabra(arrayDePalabras){
-    const n = Math.floor(Math.random() * arrayDePalabras.length);
-    arrayPalabraSorteada.push(arrayDePalabras[n])
-    return arrayDePalabras[n];
+function escogerPalabra(){
+    const palabraAlAzar = palabras[Math.floor(Math.random() * palabras.length)]
+    return palabraAlAzar
 }
 
-function dibujarTablero() {
-    containerTableroCanvas.innerHTML = '';
-    const tCanvas = document.createElement('canvas');
-    tCanvas.classList.add('tablero-canvas');
-    containerTableroCanvas.appendChild(tCanvas);
-
-    const div = document.createElement('div');
-    div.classList.add('w-50');
-    containerTableroCanvas.appendChild(div);
-
-    const p1 = document.createElement('p');
-    p1.classList.add('letras-fallidas');
-    p1.classList.add('t-center');
-    div.appendChild(p1)
-
-    const p2 = document.createElement('p');
-    p2.classList.add('palabra-encriptada');
-    p2.classList.add('t-center');
-    div.appendChild(p2);
+function limpiarTablero() {
+    tableroCanvas.innerHTML = '';
 }
 
 function dibujarGuiones(palabra){
-    const nCaracteres = palabra.length;
-    const palabraEncriptada = document.querySelector('.palabra-encriptada');
-    palabraEncriptada.innerHTML = '';
-    for( i = 0; i < nCaracteres; i++){
-        palabraEncriptada.innerHTML += ' _ ';
-    };
+    const p = document.createElement('p');
+    p.classList.add("palabra-encriptada")
+    const palabraSpliteada = palabra.split('');
+    const palabraEncriptada = palabraSpliteada.map(letra => letra.replace(letra, "_"))
+    p.innerHTML = palabraEncriptada.join(" ");
+    return controlLetras.appendChild(p)
 }
 
-function dibujarLetraCorrecta(letra){
+/*function dibujarLetraCorrecta(letra){
 
-}
-function corroborarLetra(){
+}*/
+function corroborarLetra(palabra){
     window.addEventListener('keypress', (e) => {
+        let palabraDecodificada = []
         if(e.keyCode > 96 && e.keyCode < 123){
-            let palabraEncriptada = document.querySelector('.palabra-encriptada');
-            palabraEncriptada.innerHTML = '';
-            let nuevaPalabra = [];
             let letraPresionada = e.key;
-            let palabra = arrayPalabraSorteada[0];
-            let acierto = false;
             for (i = 0; i < palabra.length; i++){
                 if( letraPresionada == palabra[i]){
-                    nuevaPalabra.push(letraPresionada)
-                } else {
-                    nuevaPalabra.push('_')
+                    palabraDecodificada.push(palabra[i])
+                    /*let palabraEncriptada = document.querySelector('.palabra-encriptada').textContent;
+                    palabraEncriptada = letraDescubierta*/
+                    /*let modificada = 
+                    palabraEncriptada.replace([i * 2], letraPresionada)*/
+                } else if(palabraDecodificada[i] != ''){
+                    palabraDecodificada[i] = palabraDecodificada[i]
+                }
+                else {
+                    palabraDecodificada[i] = '_'
                 }
             }
-            return palabraEncriptada.innerHTML = nuevaPalabra;
+            console.log(palabraDecodificada)
         } else {
             return alert("Debe presionar una letra");
         }
@@ -71,10 +56,9 @@ function corroborarLetra(){
 /*---------Listeners---------*/
 
 btnIniciar.addEventListener('click', () => {
-    const palabraSorteada = escogerPalabra(palabras);
-    dibujarTablero();
+    const palabraSorteada = escogerPalabra();
     dibujarGuiones(palabraSorteada);
-    corroborarLetra();
+    corroborarLetra(palabraSorteada)
 });
 
 /*---------Carga de DOM---------*/
