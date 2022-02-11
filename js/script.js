@@ -34,14 +34,27 @@ function corroborarLetra(palabra){
     let palabraEncriptada = palabraSpliteada.map(letra => letra.replace(letra, "_"))
     window.addEventListener('keypress', (e) => {
         if(e.keyCode > 96 && e.keyCode < 123){
+            let indices = [];
             let letraPresionada = e.key;
-            let indexOf = palabra.indexOf(letraPresionada)
-            if(indexOf != '-1'){
-                palabraEncriptada[indexOf] = letraPresionada
-            } else{
+            let indexOf = palabra.indexOf(letraPresionada);
+            while ( indexOf != -1 ) {
+                indices.push(indexOf)
+                indexOf = palabra.indexOf(letraPresionada, (indexOf+1));
+            }
+            if(indices != ''){
+                for( i = 0; i < indices.length; i++){
+                    let indice = indices[i];
+                    palabraEncriptada[indice] = letraPresionada;
+                }
+            }else{
                 vidas--
             }
-            /*let letraPresionada = e.key;
+            const p = document.querySelector('.palabra-encriptada');
+            p.innerHTML = palabraEncriptada.join(' ');
+            /*
+                        Alternativa
+            
+            let letraPresionada = e.key;
             for (i = 0; i < palabraSpliteada.length; i++){
                 if( letraPresionada == palabra[i]){
                     palabraEncriptada[i] = palabra[i];
