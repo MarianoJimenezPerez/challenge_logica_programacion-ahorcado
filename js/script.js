@@ -29,27 +29,28 @@ function dibujarGuiones(palabra){
 
 }*/
 function corroborarLetra(palabra){
+    let vidas = 5;
+    let palabraSpliteada = palabra.split('');
+    let palabraEncriptada = palabraSpliteada.map(letra => letra.replace(letra, "_"))
     window.addEventListener('keypress', (e) => {
-        let palabraDecodificada = []
         if(e.keyCode > 96 && e.keyCode < 123){
             let letraPresionada = e.key;
-            for (i = 0; i < palabra.length; i++){
+            let indexOf = palabra.indexOf(letraPresionada)
+            if(indexOf != '-1'){
+                palabraEncriptada[indexOf] = letraPresionada
+            } else{
+                vidas--
+            }
+            /*let letraPresionada = e.key;
+            for (i = 0; i < palabraSpliteada.length; i++){
                 if( letraPresionada == palabra[i]){
-                    palabraDecodificada.push(palabra[i])
-                    /*let palabraEncriptada = document.querySelector('.palabra-encriptada').textContent;
-                    palabraEncriptada = letraDescubierta*/
-                    /*let modificada = 
-                    palabraEncriptada.replace([i * 2], letraPresionada)*/
-                } else if(palabraDecodificada[i] != ''){
-                    palabraDecodificada[i] = palabraDecodificada[i]
-                }
-                else {
-                    palabraDecodificada[i] = '_'
+                    palabraEncriptada[i] = palabra[i];
                 }
             }
-            console.log(palabraDecodificada)
+            const p = document.querySelector('.palabra-encriptada');
+            p.innerHTML = palabraEncriptada.join(' ');*/
         } else {
-            return alert("Debe presionar una letra");
+            alert('La tecla presionada no es una letra')
         }
     });
 }
