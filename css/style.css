@@ -17,6 +17,7 @@ body{
     color: teal;
 }
 footer{
+    margin-top: 4vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -81,6 +82,12 @@ footer p{
     color: coral;
     transition: all 0.1s ease-in-out;
 }
+#container-tablero-canvas{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
 
 /*---------Animations---------*/
 
@@ -111,7 +118,19 @@ footer p{
     flex-direction: row;
     justify-content: center;
 }
-
+.tablero-canvas{
+    max-width: 1200px;
+    max-height: 800px;
+    background-color: #f6f6f6;
+    display: block;
+    margin: 4vh auto;
+}
+.t-center{
+    text-align: center;
+}
+.w-50{
+    width: 50%;
+}
 /*---------Media querys---------*/
 
 @media only screen and (max-width: 595px){
