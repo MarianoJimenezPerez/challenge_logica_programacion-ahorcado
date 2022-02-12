@@ -119,11 +119,12 @@ footer p{
     justify-content: center;
 }
 .tablero-canvas{
-    max-width: 1200px;
-    max-height: 800px;
-    background-color: #f6f6f6;
+    height: 400px;
+    width: 400px;
     display: block;
     margin: 4vh auto;
+    background-color: coral;
+    border: 1px solid teal;
 }
 .t-center{
     text-align: center;
