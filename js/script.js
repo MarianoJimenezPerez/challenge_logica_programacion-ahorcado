@@ -4,6 +4,8 @@ const btnIniciar = document.querySelector('#btn-iniciar');
 let tableroCanvas = document.querySelector('#tablero-canvas');
 const palabras = ['auto', 'moto', 'bicicleta', 'teclado', 'almacen'];
 const controlLetras = document.querySelector('.control-letras');
+const arrayLetrasIncorrectas = [];
+let vidas = 5;
 
 /*---------Funciones---------*/
 
@@ -26,8 +28,49 @@ function dibujarGuiones(palabra){
     return controlLetras.appendChild(p)
 }
 
+function dibujarCanvas(tablero, vidas){
+    const pincel = tablero.getContext('2d');
+    if(vidas == 4){
+        // Dibuja colgante ahorcado
+        pincel.fillStyle = 'teal';
+        pincel.strokeStyle = 'teal';
+        pincel.beginPath();
+        pincel.moveTo(10, 400);
+        pincel.lineTo(10, 0);
+        pincel.lineTo(150, 0);
+        pincel.lineTo(150, 20);
+        pincel.stroke();
+        pincel.closePath();
+    }
+    if(vidas == 3){
+        // Dibuja cabeza
+        pincel.arc(150, 35, 15, 0, (2 * 3.14));
+        pincel.stroke();
+    }
+}
+
+function dibujarLetraIncorrecta(letra){
+    let encontrado = false;
+    const letrasIncorrectas = document.querySelector('#letras-incorrectas');
+    for ( i = 0; i < arrayLetrasIncorrectas.length; i++){
+        let letrai = arrayLetrasIncorrectas[i];
+        if ( letrai == letra){
+            encontrado = true;
+        }
+    }
+
+    if(encontrado){
+        alert('Ya pulsaste esta letra')
+    } else{
+        vidas--
+        arrayLetrasIncorrectas.push(letra);
+        dibujarCanvas(tableroCanvas, vidas)
+        const letrasSplit = arrayLetrasIncorrectas.join(' - ');
+        letrasIncorrectas.innerHTML = letrasSplit;
+    }
+}
+
 function corroborarLetra(palabra){
-    let vidas = 5;
     let palabraSpliteada = palabra.split('');
     let palabraEncriptada = palabraSpliteada.map(letra => letra.replace(letra, "_"))
     window.addEventListener('keypress', (e) => {
@@ -45,7 +88,7 @@ function corroborarLetra(palabra){
                     palabraEncriptada[indice] = letraPresionada;
                 }
             }else{ //si el array de indices está vacio, debemos descontar vidas
-                vidas--
+                dibujarLetraIncorrecta(letraPresionada);
             }
             const p = document.querySelector('.palabra-encriptada');
             p.innerHTML = palabraEncriptada.join(' ');
@@ -65,18 +108,4 @@ btnIniciar.addEventListener('click', () => {
 
 /*---------Carga de DOM---------*/
 
-const pincel = tableroCanvas.getContext('2d');
-    pincel.fillStyle = 'teal';
-    pincel.strokeStyle = 'teal';
-    pincel.beginPath();
-    pincel.moveTo(10, 400);
-    pincel.lineTo(10, 0);
-    pincel.lineTo(150, 0);
-    pincel.lineTo(150, 20);
-    pincel.stroke();
-    pincel.closePath();
-
-    pincel.arc(150, 35, 15, 0, (2 * 3.14));
-    pincel.stroke();
-    
 
